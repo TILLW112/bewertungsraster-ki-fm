@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bewertungsraster: Automatisierungspotenzial FM-Aufgaben — Weidert (2025)</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg2: #f7f6f3;
+    --bg3: #f0efe9;
+    --text: #1a1a18;
+    --text2: #6b6a65;
+    --text3: #9e9d99;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --radius: 10px;
+    --radius-sm: 6px;
+    --green-bg: #EAF3DE; --green-text: #3B6D11; --green-border: #C0DD97;
+    --amber-bg: #FAEEDA; --amber-text: #854F0B; --amber-border: #FAC775;
+    --red-bg:   #FCEBEB; --red-text:   #A32D2D; --red-border:   #F7C1C1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a; --bg2: #242422; --bg3: #2c2c29;
+      --text: #f0efe9; --text2: #9e9d99; --text3: #6b6a65;
+      --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
+      --green-bg:#173404;--green-text:#C0DD97;--green-border:#3B6D11;
+      --amber-bg:#412402;--amber-text:#FAC775;--amber-border:#854F0B;
+      --red-bg:#501313;--red-text:#F7C1C1;--red-border:#A32D2D;
+    }
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); padding: 2rem; max-width: 860px; margin: 0 auto; line-height: 1.6; }
+  .page-header { border-bottom: 0.5px solid var(--border2); padding-bottom: 1.25rem; margin-bottom: 2rem; }
+  .page-title { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .page-meta { font-size: 13px; color: var(--text2); }
+  .page-meta span { margin-right: 1.5rem; }
+  .section-title { font-size: 14px; font-weight: 500; margin-bottom: 10px; color: var(--text); }
+  .task-row { display: flex; gap: 8px; margin-bottom: 1.5rem; }
+  .task-row input { flex: 1; padding: 8px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius-sm); background: var(--bg); color: var(--text); font-size: 14px; outline: none; }
+  .task-row input:focus { border-color: #378ADD; }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.75rem; }
+  .preset-btn { font-size: 12px; padding: 4px 12px; border-radius: 99px; border: 0.5px solid var(--border2); background: var(--bg); color: var(--text2); cursor: pointer; transition: all 0.15s; }
+  .preset-btn:hover { background: var(--bg2); color: var(--text); }
+  .preset-btn.active { background: #E6F1FB; color: #185FA5; border-color: #85B7EB; }
+  @media (prefers-color-scheme: dark) { .preset-btn.active { background: #042C53; color: #B5D4F4; border-color: #185FA5; } }
+  .dims { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.75rem; }
+  .dim-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; }
+  .dim-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .dim-name { font-size: 14px; font-weight: 500; }
+  .dim-badge { font-size: 12px; font-weight: 500; padding: 2px 10px; border-radius: 99px; }
+  .dim-desc { font-size: 12px; color: var(--text2); margin-bottom: 10px; }
+  .slider-row { display: flex; align-items: center; gap: 10px; }
+  .slider-lbl { font-size: 11px; color: var(--text3); white-space: nowrap; }
+  input[type=range] { flex: 1; accent-color: #378ADD; cursor: pointer; }
+  .result-box { border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; border: 0.5px solid; }
+  .result-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+  .result-score { font-size: 36px; font-weight: 500; flex-shrink: 0; }
+  .result-label { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .result-desc { font-size: 13px; line-height: 1.6; }
+  .scale-bar { display: flex; gap: 8px; margin-bottom: 2rem; }
+  .scale-zone { flex: 1; border-radius: var(--radius-sm); padding: 8px 10px; border: 0.5px solid var(--border); }
+  .scale-zone.active { border-width: 1.5px; }
+  .scale-zone-label { font-size: 11px; font-weight: 500; margin-bottom: 2px; }
+  .scale-zone-range { font-size: 11px; }
+  .section-divider { border: none; border-top: 0.5px solid var(--border); margin: 1.75rem 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { font-size: 11px; font-weight: 500; color: var(--text2); padding: 6px 8px; border-bottom: 0.5px solid var(--border2); text-align: left; }
+  td { padding: 6px 8px; border-bottom: 0.5px solid var(--border); vertical-align: middle; color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  .pill { font-size: 11px; padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
+  .pill-auto { background: var(--green-bg); color: var(--green-text); }
+  .pill-aug  { background: var(--amber-bg); color: var(--amber-text); }
+  .pill-human{ background: var(--red-bg);   color: var(--red-text); }
+  .footnote { font-size: 11px; color: var(--text3); margin-top: 8px; }
+  .theory-box { background: var(--bg2); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1.75rem; border: 0.5px solid var(--border); }
+  .theory-box p { font-size: 13px; color: var(--text2); margin-bottom: 6px; }
+  .theory-box p:last-child { margin-bottom: 0; }
+  .legend-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text2); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">Bewertungsraster: Automatisierungspotenzial von FM-Aufgaben</div>
+  <div class="page-meta">
+    <span>Till Weidert | DHBW Stuttgart | TFM2023</span>
+    <span>GOLDBECK Facility Services GmbH</span>
+    <span>Bachelorarbeit 2025 — Anhang C</span>
+  </div>
+</div>
+
+<div class="theory-box">
+  <p>Das Bewertungsraster operationalisiert die in Kapitel 7.2 theoretisch hergeleiteten Grenzen agentischer KI im Facility Management. Jede Aufgabe wird entlang von fünf Dimensionen bewertet, die aus dem Theorierahmen (Kap. 2.2–2.3) und den empirischen Befunden (Kap. 6) abgeleitet sind. Der Gesamtscore bestimmt die Einordnung in eine von drei Zonen.</p>
+  <p>Quelle: Weidert, T. (2025): Effizienzsteigerung im FM durch KI — Warum der Mensch unersetzbar bleibt. Bachelorarbeit, DHBW Stuttgart.</p>
+  <div class="legend-row">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green-text)"></div> 5–7 Pkt: Hohes Automatisierungspotenzial</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber-text)"></div> 8–11 Pkt: Augmentation-Zone</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--red-text)"></div> 12–15 Pkt: Strukturell menschlich gebunden</div>
+  </div>
+</div>
+
+<p class="section-title">Aufgabe bewerten</p>
+<div class="task-row">
+  <input type="text" id="task-name" placeholder="Name der FM-Aufgabe eingeben…" value="Wartungsdokumentanalyse" />
+</div>
+
+<p class="section-title" style="margin-bottom:8px">Beispielaufgaben laden</p>
+<div class="presets" id="presets"></div>
+
+<div class="dims" id="dims"></div>
+
+<div class="result-box" id="result-box">
+  <div class="result-top">
+    <div>
+      <div class="result-label" id="result-label"></div>
+      <div class="result-desc" id="result-desc"></div>
+    </div>
+    <div class="result-score" id="result-score"></div>
+  </div>
+</div>
+
+<div class="scale-bar" id="scale-bar"></div>
+
+<hr class="section-divider">
+
+<p class="section-title">Vergleichsübersicht: GOLDBECK Facility Services GmbH</p>
+<table>
+  <thead>
+    <tr>
+      <th>FM-Aufgabe</th>
+      <th style="text-align:center" title="Ermessensabhängigkeit">E</th>
+      <th style="text-align:center" title="Physische Präsenz">P</th>
+      <th style="text-align:center" title="Soziale Komplexität">S</th>
+      <th style="text-align:center" title="Haftungsrelevanz">H</th>
+      <th style="text-align:center" title="Ausnahmefrequenz">A</th>
+      <th style="text-align:center">∑</th>
+      <th>Einordnung</th>
+      <th>Empirischer Beleg</th>
+    </tr>
+  </thead>
+  <tbody id="table-body"></tbody>
+</table>
+<p class="footnote">E = Ermessensabhängigkeit · P = Physische Präsenz · S = Soziale Komplexität · H = Haftungsrelevanz · A = Ausnahmefrequenz · Skala 1–3 (1 = gering, 3 = hoch)</p>
+
+<hr class="section-divider">
+<p class="footnote" style="font-size:12px;color:var(--text2)">Methodische Grundlage: Mayring, P. (2015): Qualitative Inhaltsanalyse. 12. Aufl., Beltz. — Empirische Basis: Mitarbeiterbefragung GOLDBECK FS (n=145, 2025) sowie Experteninterviews (Niermann 2026; Hilmer 2026). — Theoretische Fundierung: Kapitel 2.2–2.4 und 7.2 der Bachelorarbeit.</p>
+
+<script>
+const DIMS = [
+  { id:"ermessen", name:"Ermessensabhängigkeit", desc:"Wie stark hängt die Aufgabe von menschlichem Urteil statt klaren, datenbasierten Regeln ab?", low:"Vollständig regelbasiert", high:"Stark ermessensabhängig" },
+  { id:"praesenz", name:"Physische Präsenz", desc:"Ist die physische Anwesenheit vor Ort notwendig, um die Aufgabe korrekt auszuführen?", low:"Keine Präsenz nötig", high:"Zwingend vor Ort" },
+  { id:"sozial", name:"Soziale Komplexität", desc:"Erfordert die Aufgabe Empathie, Kundenkommunikation oder situative Beziehungsgestaltung?", low:"Keine sozialen Faktoren", high:"Stark empathieabhängig" },
+  { id:"haftung", name:"Haftungsrelevanz", desc:"Welche rechtliche Verantwortung und welche Haftungsfolgen entstehen durch Fehler bei dieser Aufgabe?", low:"Geringe Haftungsfolgen", high:"Hohe rechtl. Verantwortung" },
+  { id:"ausnahme", name:"Ausnahmefrequenz", desc:"Wie häufig treten unvorhergesehene Situationen auf, die von der Norm abweichen und Urteilsvermögen erfordern?", low:"Reine Routineaufgabe", high:"Häufige Ausnahmen" }
+];
+
+const PRESETS = [
+  { name:"Wartungsdokumentanalyse", scores:[1,1,1,2,1] },
+  { name:"Techniker-Disposition", scores:[1,1,1,2,2] },
+  { name:"Energieverbrauchsanalyse", scores:[1,1,1,1,1] },
+  { name:"Datentransfer (System A→B)", scores:[1,1,1,1,1] },
+  { name:"Angebotserstellung Sonderleistung", scores:[2,1,2,3,2] },
+  { name:"Priorisierung Winterdienst", scores:[2,1,1,3,2] },
+  { name:"Anlagenbegehung vor Ort", scores:[3,3,1,3,3] },
+  { name:"Kundengespräch / Beschwerde", scores:[3,2,3,2,3] },
+  { name:"Gewährleistungsmanagement", scores:[3,2,2,3,3] },
+  { name:"Personalführungsgespräch", scores:[3,3,3,3,3] }
+];
+
+const TABLE_DATA = [
+  { name:"Wartungsdokumentanalyse", scores:[1,1,1,2,1], beleg:"Hilmer (2026): ~50% Effizienzgewinn; Niermann (2026): Pilotprojekt aktiv" },
+  { name:"Techniker-Disposition", scores:[1,1,1,2,2], beleg:"Niermann (2026, 00:01:28); Hilmer (2026, 00:03:46)" },
+  { name:"Energieverbrauchsanalyse", scores:[1,1,1,1,1], beleg:"GEFMA 929 (2024, S. 48); GEFMA Trendreport (2025)" },
+  { name:"Angebotserst. Sonderleistung", scores:[2,1,2,3,2], beleg:"Hilmer (2026, 00:07:57): KI generiert Angebot, Mensch prüft" },
+  { name:"Priorisierung Winterdienst", scores:[2,1,1,3,2], beleg:"Hilmer (2026, 00:31:21): mit Kontext möglich" },
+  { name:"Anlagenbegehung vor Ort", scores:[3,3,1,3,3], beleg:"Umfrage F14: 84,8%; Hilmer (2026, 00:35:44)" },
+  { name:"Kundengespräch/Beschwerde", scores:[3,2,3,2,3], beleg:"Umfrage F14: 76,6%; Hilmer (2026, 00:35:08)" },
+  { name:"Gewährleistungsmanagement", scores:[3,2,2,3,3], beleg:"Umfrage F20 ID 15, 95; Hilmer (2026, 00:28:24)" },
+  { name:"Personalführungsgespräch", scores:[3,3,3,3,3], beleg:"Niermann (2026, 00:21:18)" }
+];
+
+function getZone(t) {
+  if (t <= 7)  return { label:"Hohes Automatisierungspotenzial", cls:"auto",  bg:"var(--green-bg)", color:"var(--green-text)", border:"var(--green-border)", pill:"Automatisierbar",
+    desc:"Diese Aufgabe ist strukturell für agentische KI geeignet. Sie ist regelbasiert, erfordert keine physische Präsenz und hat geringe soziale oder haftungsrelevante Komplexität. Entspricht dem 80%-Segment des Augmentation-Modells (vgl. Kap. 7.2)." };
+  if (t <= 11) return { label:"Augmentation-Zone (Mensch + KI)", cls:"aug", bg:"var(--amber-bg)", color:"var(--amber-text)", border:"var(--amber-border)", pill:"Augmentation",
+    desc:"Mensch und KI arbeiten optimal zusammen. KI übernimmt Analyse und Vorbereitung, der Mensch validiert, entscheidet und trägt Verantwortung. Entspricht dem Human-in-the-Loop-Konzept (vgl. Kap. 2.3.2; EU AI Act Art. 14)." };
+  return { label:"Strukturell menschlich gebunden", cls:"human", bg:"var(--red-bg)", color:"var(--red-text)", border:"var(--red-border)", pill:"Menschlich",
+    desc:"Diese Aufgabe verbleibt strukturell beim Menschen. Physische Präsenz, soziale Kontextsensitivität oder nicht delegierbare Haftungsverantwortung machen eine vollständige KI-Übernahme auch mittelfristig nicht realisierbar. Entspricht dem 20%-Segment (vgl. Kap. 7.2)." };
+}
+
+function getBadgeStyle(s) {
+  if (s===1) return `background:var(--green-bg);color:var(--green-text)`;
+  if (s===2) return `background:var(--amber-bg);color:var(--amber-text)`;
+  return `background:var(--red-bg);color:var(--red-text)`;
+}
+
+let scores = [1,1,1,2,1];
+
+function buildPresets() {
+  const c = document.getElementById("presets");
+  PRESETS.forEach((p,i) => {
+    const b = document.createElement("button");
+    b.className = "preset-btn" + (i===0?" active":"");
+    b.textContent = p.name;
+    b.onclick = () => { scores=[...p.scores]; document.getElementById("task-name").value=p.name; buildDims(); updateActive(i); updateResult(); };
+    c.appendChild(b);
+  });
+}
+
+function updateActive(idx) {
+  document.querySelectorAll(".preset-btn").forEach((b,i)=>b.classList.toggle("active",i===idx));
+}
+
+function buildDims() {
+  const c = document.getElementById("dims"); c.innerHTML="";
+  DIMS.forEach((d,i) => {
+    const div = document.createElement("div"); div.className="dim-card";
+    div.innerHTML=`<div class="dim-top"><span class="dim-name">${d.name}</span><span class="dim-badge" id="b${i}" style="${getBadgeStyle(scores[i])}">${scores[i]}</span></div><div class="dim-desc">${d.desc}</div><div class="slider-row"><span class="slider-lbl">${d.low}</span><input type="range" min="1" max="3" step="1" value="${scores[i]}" id="s${i}"><span class="slider-lbl">${d.high}</span></div>`;
+    c.appendChild(div);
+    document.getElementById(`s${i}`).oninput=e=>{scores[i]=+e.target.value;document.getElementById(`b${i}`).textContent=scores[i];document.getElementById(`b${i}`).style.cssText=getBadgeStyle(scores[i]);checkPresetMatch();updateResult();};
+  });
+}
+
+function checkPresetMatch() {
+  const match = PRESETS.findIndex(p=>JSON.stringify(p.scores)===JSON.stringify(scores));
+  document.querySelectorAll(".preset-btn").forEach((b,i)=>b.classList.toggle("active",i===match));
+}
+
+function updateResult() {
+  const t = scores.reduce((a,b)=>a+b,0);
+  const z = getZone(t);
+  const rb = document.getElementById("result-box");
+  rb.style.background=z.bg; rb.style.borderColor=z.border;
+  document.getElementById("result-score").textContent=t; document.getElementById("result-score").style.color=z.color;
+  document.getElementById("result-label").textContent=z.label; document.getElementById("result-label").style.color=z.color;
+  document.getElementById("result-desc").textContent=z.desc; document.getElementById("result-desc").style.color=z.color;
+  buildScale(t);
+}
+
+function buildScale(t) {
+  const c = document.getElementById("scale-bar"); c.innerHTML="";
+  [{label:"Hohes Automatisierungspotenzial",range:"5–7 Pkt",min:5,max:7,bg:"var(--green-bg)",color:"var(--green-text)",border:"var(--green-border)"},
+   {label:"Augmentation-Zone",range:"8–11 Pkt",min:8,max:11,bg:"var(--amber-bg)",color:"var(--amber-text)",border:"var(--amber-border)"},
+   {label:"Strukturell menschlich gebunden",range:"12–15 Pkt",min:12,max:15,bg:"var(--red-bg)",color:"var(--red-text)",border:"var(--red-border)"}
+  ].forEach(z=>{
+    const active=t>=z.min&&t<=z.max;
+    const d=document.createElement("div");
+    d.className="scale-zone"+(active?" active":"");
+    d.style.background=active?z.bg:"var(--bg2)";
+    d.style.borderColor=active?z.border:"var(--border)";
+    d.innerHTML=`<div class="scale-zone-label" style="color:${active?z.color:"var(--text2)"}">${z.label}</div><div class="scale-zone-range" style="color:${active?z.color:"var(--text3)"}">${z.range}</div>`;
+    c.appendChild(d);
+  });
+}
+
+function buildTable() {
+  const tb = document.getElementById("table-body");
+  TABLE_DATA.forEach(row=>{
+    const t=row.scores.reduce((a,b)=>a+b,0);
+    const z=getZone(t);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td style="font-weight:500">${row.name}</td>${row.scores.map(s=>`<td style="text-align:center">${s}</td>`).join("")}<td style="text-align:center;font-weight:500">${t}</td><td><span class="pill pill-${z.cls}">${z.pill}</span></td><td style="color:var(--text2);font-size:11px">${row.beleg}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+buildPresets(); buildDims(); updateResult(); buildTable();
+</script>
+</body>
+</html>
