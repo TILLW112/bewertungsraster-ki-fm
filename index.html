@@ -1,0 +1,271 @@
+
+<h2 class="sr-only">Bewertungsraster: Automatisierungspotenzial von FM-Aufgaben — GOLDBECK Facility Services GmbH</h2>
+<style>
+.bw{padding:1.5rem 0;font-family:var(--font-sans)}
+.bw-title{font-size:18px;font-weight:500;color:var(--color-text-primary);margin:0 0 3px}
+.bw-sub{font-size:12px;color:var(--color-text-secondary);margin:0 0 1.5rem}
+.bw-sl{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:0 0 8px}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.5rem}
+.pb{font-size:12px;padding:4px 10px;border-radius:99px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.pb:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.pb.act{background:#E6F1FB;color:#0C447C;border-color:#85B7EB}
+.task-row{display:flex;gap:8px;margin-bottom:1.5rem;align-items:center}
+.task-row input{flex:1;font-size:14px}
+.dims{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.25rem}
+.dc{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:.875rem 1.125rem}
+.dt{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.dn{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.db{font-size:12px;font-weight:500;padding:2px 9px;border-radius:99px}
+.dd{font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;line-height:1.5}
+.dsr{display:flex;align-items:center;gap:8px}
+.dl{font-size:11px;color:var(--color-text-tertiary);white-space:nowrap}
+input[type=range]{flex:1}
+.rb{border-radius:var(--border-radius-lg);padding:1.125rem 1.375rem;margin-bottom:.875rem;border:0.5px solid}
+.rt{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.rs{font-size:34px;font-weight:500;flex-shrink:0}
+.rl{font-size:15px;font-weight:500;margin-bottom:5px}
+.rdesc{font-size:13px;line-height:1.6}
+.sb{display:flex;gap:8px;margin-bottom:1.25rem}
+.sz{flex:1;border-radius:var(--border-radius-md);padding:7px 10px;border:0.5px solid var(--color-border-tertiary)}
+.sz.act-z{border-width:1.5px}
+.szl{font-size:11px;font-weight:500;margin-bottom:2px}
+.szr{font-size:11px}
+.add-bar{display:flex;gap:8px;margin-bottom:1.75rem;align-items:center;padding:10px 14px;border-radius:var(--border-radius-lg);border:1px dashed var(--color-border-secondary);background:var(--color-background-secondary)}
+.add-bar span{font-size:13px;color:var(--color-text-secondary);flex:1}
+.add-btn{font-size:13px;padding:6px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer;font-weight:500;transition:all .15s;white-space:nowrap}
+.add-btn:hover{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info)}
+.add-btn:disabled{opacity:.4;cursor:not-allowed}
+.sec-div{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+.tbl th{font-size:11px;font-weight:500;color:var(--color-text-secondary);padding:6px 8px;border-bottom:0.5px solid var(--color-border-secondary);text-align:left}
+.tbl td{padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tbody tr.clickable{cursor:pointer;transition:background .12s}
+.tbl tbody tr.clickable:hover td{background:var(--color-background-secondary)}
+.tbl tbody tr.act-row td{background:#E6F1FB}
+.tbl tbody tr.custom-row td{background:var(--color-background-secondary)}
+.tbl tbody tr.custom-row.act-row td{background:#E6F1FB}
+.zp{font-size:11px;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.zp-a{background:#EAF3DE;color:#3B6D11}
+.zp-u{background:#FAEEDA;color:#854F0B}
+.zp-h{background:#FCEBEB;color:#A32D2D}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--color-text-tertiary);font-size:14px;padding:0 2px;line-height:1;transition:color .12s}
+.del-btn:hover{color:var(--color-text-danger,#A32D2D)}
+.new-badge{font-size:10px;padding:1px 6px;border-radius:99px;background:#E6F1FB;color:#0C447C;margin-left:5px;vertical-align:middle}
+.toast{font-size:12px;color:#3B6D11;background:#EAF3DE;border:0.5px solid #C0DD97;border-radius:var(--border-radius-md);padding:6px 12px;margin-bottom:1rem;display:none}
+.fn{font-size:11px;color:var(--color-text-tertiary);margin-top:6px}
+.tbl-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.tbl-hdr-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.tbl-hdr-hint{font-size:11px;color:var(--color-text-tertiary)}
+</style>
+
+<div class="bw">
+  <p class="bw-title">Bewertungsraster: Automatisierungspotenzial im FM</p>
+  <p class="bw-sub">Bachelorarbeit — Till Weidert | GOLDBECK Facility Services GmbH</p>
+
+  <p class="bw-sl">Aufgabe eingeben</p>
+  <div class="task-row">
+    <input type="text" id="tname" placeholder="FM-Aufgabe eingeben oder aus Tabelle wählen…" value="Wartungsdokumentanalyse" />
+  </div>
+
+  <p class="bw-sl" style="margin-bottom:8px">Beispiele laden</p>
+  <div class="presets" id="presets"></div>
+  <div class="dims" id="dims"></div>
+
+  <div class="rb" id="rb">
+    <div class="rt">
+      <div><div class="rl" id="rl"></div><div class="rdesc" id="rdesc"></div></div>
+      <div class="rs" id="rs"></div>
+    </div>
+  </div>
+  <div class="sb" id="sb"></div>
+
+  <div class="add-bar" id="add-bar">
+    <span id="add-hint">Aufgabe bewerten und zur Vergleichsübersicht hinzufügen</span>
+    <button class="add-btn" id="add-btn" onclick="addToTable()"><i class="ti ti-plus" aria-hidden="true"></i> Zur Tabelle hinzufügen</button>
+  </div>
+
+  <div class="toast" id="toast"><i class="ti ti-check" aria-hidden="true"></i> <span id="toast-msg"></span></div>
+
+  <hr class="sec-div">
+  <div class="tbl-hdr">
+    <span class="tbl-hdr-title">Vergleichsübersicht GOLDBECK Facility Services GmbH</span>
+    <span class="tbl-hdr-hint">Zeile anklicken zum Laden · <i class="ti ti-plus" style="font-size:11px" aria-hidden="true"></i> = eigene Einträge</span>
+  </div>
+  <table class="tbl">
+    <thead><tr>
+      <th style="width:32%">FM-Aufgabe</th>
+      <th style="width:7%;text-align:center" title="Ermessensabhängigkeit">E</th>
+      <th style="width:7%;text-align:center" title="Physische Präsenz">P</th>
+      <th style="width:7%;text-align:center" title="Soziale Komplexität">S</th>
+      <th style="width:7%;text-align:center" title="Haftungsrelevanz">H</th>
+      <th style="width:7%;text-align:center" title="Ausnahmefrequenz">A</th>
+      <th style="width:7%;text-align:center">∑</th>
+      <th style="width:20%">Einordnung</th>
+      <th style="width:6%;text-align:center"></th>
+    </tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <p class="fn">E=Ermessensabhängigkeit · P=Physische Präsenz · S=Soziale Komplexität · H=Haftungsrelevanz · A=Ausnahmefrequenz · Skala 1–3</p>
+</div>
+
+<script>
+const DIMS=[
+  {name:"Ermessensabhängigkeit",desc:"Wie stark hängt die Aufgabe von menschlichem Urteil statt klaren Regeln ab?",low:"Vollständig regelbasiert",high:"Stark ermessensabhängig"},
+  {name:"Physische Präsenz",desc:"Ist die physische Anwesenheit vor Ort notwendig?",low:"Keine Präsenz nötig",high:"Zwingend vor Ort"},
+  {name:"Soziale Komplexität",desc:"Erfordert die Aufgabe Empathie oder Kundenkommunikation?",low:"Keine sozialen Faktoren",high:"Stark empathieabhängig"},
+  {name:"Haftungsrelevanz",desc:"Welche Haftungsfolgen entstehen durch Fehler?",low:"Geringe Haftungsfolgen",high:"Hohe rechtl. Verantwortung"},
+  {name:"Ausnahmefrequenz",desc:"Wie häufig treten unvorhergesehene Situationen auf?",low:"Reine Routineaufgabe",high:"Häufige Ausnahmen"}
+];
+
+const PRESETS=[
+  {name:"Wartungsdokumentanalyse",     s:[1,1,1,2,2]},
+  {name:"Techniker-Disposition",        s:[1,1,1,2,2]},
+  {name:"Energieverbrauchsanalyse",     s:[1,1,1,1,1]},
+  {name:"Datentransfer (System A→B)",   s:[1,1,1,1,1]},
+  {name:"Angebotserst. Sonderleistung", s:[2,1,2,3,2]},
+  {name:"Priorisierung Winterdienst",   s:[2,1,1,3,2]},
+  {name:"Anlagenbegehung vor Ort",      s:[2,3,2,3,3]},
+  {name:"Kundengespräch / Beschwerde",  s:[3,2,3,2,3]},
+  {name:"Gewährleistungsmanagement",    s:[3,2,2,3,3]},
+  {name:"Personalführungsgespräch",     s:[3,3,3,3,3]}
+];
+
+let tableData=PRESETS.map(p=>({...p,custom:false}));
+let sc=[1,1,1,2,2];
+let activeRow=0;
+
+function zone(t){
+  if(t<=7)return{l:"Hohes Automatisierungspotenzial",c:"a",bg:"#EAF3DE",col:"#3B6D11",br:"#C0DD97",
+    desc:"Strukturell für agentische KI geeignet. Regelbasiert, keine physische Präsenz, geringe Haftungs- und Sozialkomplexität. Entspricht dem 80%-Segment (Kap. 7.2)."};
+  if(t<=11)return{l:"Augmentation-Zone (Mensch + KI)",c:"u",bg:"#FAEEDA",col:"#854F0B",br:"#FAC775",
+    desc:"KI übernimmt Analyse und Vorbereitung — der Mensch validiert, entscheidet und trägt Verantwortung. Entspricht dem Human-in-the-Loop-Konzept (Kap. 2.3.2)."};
+  return{l:"Strukturell menschlich gebunden",c:"h",bg:"#FCEBEB",col:"#A32D2D",br:"#F7C1C1",
+    desc:"Physische Präsenz, soziale Komplexität oder nicht delegierbare Haftungsverantwortung. Entspricht dem 20%-Segment (Kap. 7.2)."};
+}
+
+function bs(v){
+  if(v===1)return"background:#EAF3DE;color:#3B6D11";
+  if(v===2)return"background:#FAEEDA;color:#854F0B";
+  return"background:#FCEBEB;color:#A32D2D";
+}
+
+function loadRow(i){
+  sc=[...tableData[i].s];
+  document.getElementById("tname").value=tableData[i].name;
+  activeRow=i;
+  buildDims();
+  syncPresets();
+  updateResult();
+  renderTable();
+}
+
+function syncPresets(){
+  document.querySelectorAll(".pb").forEach((b,i)=>{
+    const match=i<PRESETS.length&&JSON.stringify(PRESETS[i].s)===JSON.stringify(sc)&&PRESETS[i].name===document.getElementById("tname").value;
+    b.classList.toggle("act",match);
+  });
+}
+
+function buildPresets(){
+  const c=document.getElementById("presets");
+  PRESETS.forEach((d,i)=>{
+    const b=document.createElement("button");
+    b.className="pb"+(i===0?" act":"");
+    b.textContent=d.name;
+    b.onclick=()=>{
+      sc=[...d.s];
+      document.getElementById("tname").value=d.name;
+      const tIdx=tableData.findIndex(r=>r.name===d.name&&!r.custom);
+      activeRow=tIdx>=0?tIdx:-1;
+      buildDims();syncPresets();updateResult();renderTable();
+    };
+    c.appendChild(b);
+  });
+}
+
+function buildDims(){
+  const c=document.getElementById("dims");c.innerHTML="";
+  DIMS.forEach((d,i)=>{
+    const div=document.createElement("div");div.className="dc";
+    div.innerHTML=`<div class="dt"><span class="dn">${d.name}</span><span class="db" id="b${i}" style="${bs(sc[i])}">${sc[i]}</span></div><div class="dd">${d.desc}</div><div class="dsr"><span class="dl">${d.low}</span><input type="range" min="1" max="3" step="1" value="${sc[i]}" id="sl${i}"><span class="dl">${d.high}</span></div>`;
+    c.appendChild(div);
+    document.getElementById(`sl${i}`).oninput=e=>{
+      sc[i]=+e.target.value;
+      document.getElementById(`b${i}`).textContent=sc[i];
+      document.getElementById(`b${i}`).style.cssText=bs(sc[i]);
+      activeRow=-1;syncPresets();updateResult();renderTable();
+    };
+  });
+}
+
+function updateResult(){
+  const t=sc.reduce((a,b)=>a+b,0);
+  const z=zone(t);
+  const rb=document.getElementById("rb");
+  rb.style.background=z.bg;rb.style.borderColor=z.br;
+  document.getElementById("rs").textContent=t;document.getElementById("rs").style.color=z.col;
+  document.getElementById("rl").textContent=z.l;document.getElementById("rl").style.color=z.col;
+  document.getElementById("rdesc").textContent=z.desc;document.getElementById("rdesc").style.color=z.col;
+  const name=document.getElementById("tname").value.trim();
+  const exists=tableData.some(r=>r.name===name);
+  const btn=document.getElementById("add-btn");
+  const hint=document.getElementById("add-hint");
+  btn.disabled=!name||exists;
+  hint.textContent=exists?`"${name}" ist bereits in der Tabelle`:(name?`"${name}" mit Score ${t} zur Tabelle hinzufügen`:"Aufgabenname eingeben");
+  buildScale(t);
+}
+
+function buildScale(t){
+  const c=document.getElementById("sb");c.innerHTML="";
+  [{l:"Hohes Automatisierungspotenzial",r:"5–7",min:5,max:7,bg:"#EAF3DE",col:"#3B6D11",br:"#C0DD97"},
+   {l:"Augmentation-Zone",r:"8–11",min:8,max:11,bg:"#FAEEDA",col:"#854F0B",br:"#FAC775"},
+   {l:"Strukturell menschlich gebunden",r:"12–15",min:12,max:15,bg:"#FCEBEB",col:"#A32D2D",br:"#F7C1C1"}
+  ].forEach(z=>{
+    const a=t>=z.min&&t<=z.max;
+    const d=document.createElement("div");
+    d.className="sz"+(a?" act-z":"");
+    d.style.background=a?z.bg:"var(--color-background-secondary)";
+    d.style.borderColor=a?z.br:"var(--color-border-tertiary)";
+    d.innerHTML=`<div class="szl" style="color:${a?z.col:"var(--color-text-secondary)"}">${z.l}</div><div class="szr" style="color:${a?z.col:"var(--color-text-tertiary)"}">${z.r} Pkt.</div>`;
+    c.appendChild(d);
+  });
+}
+
+function addToTable(){
+  const name=document.getElementById("tname").value.trim();
+  if(!name||tableData.some(r=>r.name===name))return;
+  tableData.push({name,s:[...sc],custom:true});
+  activeRow=tableData.length-1;
+  renderTable();updateResult();
+  const toast=document.getElementById("toast");
+  document.getElementById("toast-msg").textContent=`"${name}" wurde zur Tabelle hinzugefügt.`;
+  toast.style.display="block";
+  setTimeout(()=>toast.style.display="none",3000);
+}
+
+function deleteRow(i,e){
+  e.stopPropagation();
+  tableData.splice(i,1);
+  if(activeRow>=tableData.length)activeRow=tableData.length-1;
+  renderTable();updateResult();
+}
+
+function renderTable(){
+  const tb=document.getElementById("tbody");tb.innerHTML="";
+  tableData.forEach((row,i)=>{
+    const t=row.s.reduce((a,b)=>a+b,0);
+    const z=zone(t);
+    const tr=document.createElement("tr");
+    tr.className="clickable"+(i===activeRow?" act-row":"")+(row.custom?" custom-row":"");
+    tr.onclick=()=>loadRow(i);
+    tr.title=`${row.name} laden`;
+    tr.innerHTML=`<td style="font-weight:500">${row.name}${row.custom?'<span class="new-badge">neu</span>':''}</td>${row.s.map(v=>`<td style="text-align:center">${v}</td>`).join("")}<td style="text-align:center;font-weight:500">${t}</td><td><span class="zp zp-${z.c}">${t<=7?"Automatisierbar":t<=11?"Augmentation":"Menschlich"}</span></td><td style="text-align:center">${row.custom?`<button class="del-btn" title="Entfernen" onclick="deleteRow(${i},event)">×</button>`:''}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+document.getElementById("tname").addEventListener("input",()=>{activeRow=-1;syncPresets();updateResult();renderTable();});
+
+buildPresets();buildDims();updateResult();renderTable();
+</script>
